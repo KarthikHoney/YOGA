@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost'; 
-$dbname = 'yoga'; 
+$host = 'localhost';
+$dbname = 'yoga';
 $username = 'root';
-$password = ''; 
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -13,8 +13,6 @@ try {
 
 header('Content-Type: application/json');
 
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
     $action = $_GET['action'];
     try {
@@ -23,16 +21,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
             $email = $_GET['email'];
             $parentname = $_GET['parentname'];
             $dob = $_GET['dob'];
-            $number=$_GET['number'];
-            $password=$_GET['password'];
+            $number = $_GET['number'];
+            $password = $_GET['password'];
             $wnumber = $_GET['wnumber'];
             $grade = $_GET['grade'];
             $address = $_GET['address'];
-            
 
-            $sql = "INSERT INTO individual_student (name, email,parentname,dob,address,password,wnumber,grade,number) VALUES (:name, :gmail,:parentname,:dob,:address,:password,:wnumber,:grade,:number)";
+           
+            $sql = "INSERT INTO individual_student (name, email, parentname, dob, address, password, wnumber, grade, number) 
+                    VALUES (:name, :email, :parentname, :dob, :address, :password, :wnumber, :grade, :number)";
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(['name' => $name, 'gmail' => $email,'parentname'=>$parentname,'dob'=>$dob,'address'=>$address,'password'=>$password,'wnumber'=>$wnumber,'grade'=>$grade,'number'=>$number]);
+            $stmt->execute([
+                'name' => $name,
+                'email' => $email,  
+                'parentname' => $parentname,
+                'dob' => $dob,
+                'address' => $address,
+                'password' => $password,
+                'wnumber' => $wnumber,
+                'grade' => $grade,
+                'number' => $number
+            ]);
             echo json_encode(['message' => 'Record created successfully']);
         } elseif ($action === 'update') {
             $id = $_GET['id'];
