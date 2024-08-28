@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/gexam/static/css/main.e05fe781.css",
+    "main.js": "/gexam/static/js/main.0310753f.js",
+    "static/media/loginbg.jpg": "/gexam/static/media/loginbg.b8186aa0625eb5226e41.jpg",
+    "static/media/trainer-form.jpg": "/gexam/static/media/trainer-form.4939335c02b1fead8e84.jpg",
+    "static/media/bg.jpg": "/gexam/static/media/bg.7446ab214ea6a1330c69.jpg",
+    "index.html": "/gexam/index.html",
+    "main.e05fe781.css.map": "/gexam/static/css/main.e05fe781.css.map",
+    "main.0310753f.js.map": "/gexam/static/js/main.0310753f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e05fe781.css",
+    "static/js/main.0310753f.js"
+  ]
+}
