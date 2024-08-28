@@ -1,3 +1,4 @@
+// RegisterPage.js
 import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
@@ -70,6 +71,8 @@ export default function RegisterPage() {
                 } else {
                     console.log(response.data);
                     setData(response.data);
+                    // Remove the following line to avoid sending all students to onStudentSubmit
+                    // onStudentSubmit(response.data)
                 }
             })
             .catch((error) => {
@@ -86,23 +89,25 @@ export default function RegisterPage() {
                     params: {
                         action: 'create',
                         name: formData.name,
-                        email: formData.gmail,
-                        parentname:formData.parentname,
-                        dob:formData.dob,
-                        address:formData.address,
-                        password:formData.password,
-                        wnumber:formData.wnumber,
-                        grade:formData.grade,
-                        number:formData.number,
+                        email: formData.gmail, // Map 'gmail' to 'email' for backend
+                        parentname: formData.parentname,
+                        dob: formData.dob,
+                        address: formData.address,
+                        password: formData.password,
+                        wnumber: formData.wnumber,
+                        grade: formData.grade,
+                        number: formData.number,
                     },
                 })
                 .then((response) => {
                     console.log(response.data);
                     if (response.data.message) {
                         alert(response.data.message);
-                        fetchData();
+                        
+                        
                         toast('Submitted Successfully');
                         setFormData(initialFormData);
+                        navigate('/student-details'); 
                     } else {
                         alert('Failed to create record');
                     }
@@ -264,7 +269,7 @@ export default function RegisterPage() {
                         {errors.address && <div className="error">{errors.address}</div>}
                     </div>
                 </div>
-                <a href="" className='text-right' onClick={goToLogin}>Already Have an Account?</a>
+                <a href="#" className='text-right' onClick={goToLogin}>Already Have an Account?</a>
                 <button type='submit' className='mt-3 ht_btn'>Submit</button>
             </Form>
             <ToastContainer />

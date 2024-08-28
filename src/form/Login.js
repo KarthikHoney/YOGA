@@ -26,11 +26,10 @@ export default function Login({ onLogin }) {
 
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-   
     const initialFormData = {
         name: '',
         password: '',
-        role: '' 
+        role: ''
     };
 
     const [formData, setFormData] = useState(initialFormData);
@@ -50,7 +49,7 @@ export default function Login({ onLogin }) {
         let tempErrors = {};
         if (!formData.name) tempErrors.name = "Name is required";
         if (!formData.password) tempErrors.password = "Password is required";
-        if (!formData.role) tempErrors.role = "Role is required"; 
+        if (!formData.role) tempErrors.role = "Role is required";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
@@ -63,15 +62,14 @@ export default function Login({ onLogin }) {
                     params: {
                         action: formData.role,
                         name: formData.name,
-                        password: formData.password,
+                        password: formData.password
                     },
                 })
                 .then((res) => {
-                    const users = res.data;
-                    const user = users.find(user => user.name === formData.name && user.password === formData.password);
+                    const { success, user } = res.data;
 
-                    if (user) {
-                        onLogin(formData.role,formData.name);
+                    if (success) {
+                        onLogin(formData.role, formData.name);
                         if (formData.role === 'individualstudent') {
                             navigate('/student-dashboard');
                         } else if (formData.role === 'trainerstudent') {
@@ -94,7 +92,7 @@ export default function Login({ onLogin }) {
                 });
         }
     };
-    
+
     return (
         <div className='login-page d-flex justify-content-center align-items-center min-vh-100'>
             <Modal show={show} onHide={handleClose} centered>
@@ -187,5 +185,5 @@ export default function Login({ onLogin }) {
             </Form>
             <ToastContainer />
         </div>
-    );
+    )
 }
