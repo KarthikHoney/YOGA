@@ -2,9 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { CiLogout } from 'react-icons/ci';
 import { FaUser } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function StudentDetails() {
+  const { id } = useParams();
+  
   const [data, setData] = useState(null);
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ export default function StudentDetails() {
 
   const fetchData = () => {
     axios
-      .get('http://localhost/CURD/studentDetails.php')
+      .get(`http://localhost/CURD/studentdetails.php?id=${id}`)
       .then((response) => {
         if (response.data.error) {
           console.error('Error:', response.data.error);
@@ -42,8 +44,8 @@ export default function StudentDetails() {
       <div className='d-flex justify-content-between'>
         <h2>Student Details</h2>
         <div>
-          <a href='#'><FaUser className='user-icon me-2' /></a>
-          <a href='' onClick={logout}><CiLogout className='user-icon' /></a>
+          <a><FaUser className='user-icon me-2' /></a>
+          <a onClick={logout}><CiLogout className='user-icon' /></a>
         </div>
       </div>
       <div className="border-table d-block ms-auto me-auto">
@@ -58,7 +60,7 @@ export default function StudentDetails() {
               <td>{data.parentname}</td>
             </tr>
             <tr>
-              <th>Gmail</th>
+              <th>Email</th>
               <td>{data.gmail}</td>
             </tr>
             <tr>
