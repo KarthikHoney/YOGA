@@ -3,19 +3,17 @@ session_start();
 
 header('Content-Type: application/json');
 
-// Check if session ID is set
-if (!isset($_SESSION['id'])) {
-    echo json_encode(['error' => 'id not fetched ']);
+// Get the student ID from the GET request
+$studentId = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+if (!$studentId) {
+    echo json_encode(['error' => 'Student ID not provided']);
     exit();
 }
 
-// Fetch and display the session ID for debugging
-$studentId = $_SESSION['id'];
-echo json_encode(['status' => 'Session ID fetched', 'id' => $studentId]);
-
 // Database connection details
 $host = 'localhost';
-$dbname = 'yoga';
+$dbname = 'data';
 $username = 'root';
 $password = '';
 

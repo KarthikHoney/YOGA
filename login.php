@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
 
         if ($user && $user['password'] === $password) {
             
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_role'] = $role;
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['role'] = $role;
 
             echo json_encode(['success' => true, 'user' => $user]);
         } else {
