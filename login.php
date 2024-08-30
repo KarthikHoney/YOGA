@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session
+session_start(); 
 
 $host = 'localhost'; 
 $dbname = 'yoga'; 
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         if ($role === 'individualstudent') {
             $sql = "SELECT * FROM individual_student WHERE name = :name";
         } else if ($role === 'trainerstudent') {
-            $sql = "SELECT * FROM trainer WHERE name = :name";
+            $sql = "SELECT  * FROM trainer WHERE name = :name";
         } else {
             echo json_encode(['error' => 'Invalid role']);
             exit;

@@ -6,6 +6,8 @@ header('Content-Type: application/json');
 // Get the student ID from the GET request
 $studentId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
+// 
+
 if (!$studentId) {
     echo json_encode(['error' => 'Student ID not provided']);
     exit();
@@ -13,7 +15,7 @@ if (!$studentId) {
 
 // Database connection details
 $host = 'localhost';
-$dbname = 'data';
+$dbname = 'yoga';
 $username = 'root';
 $password = '';
 
