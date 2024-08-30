@@ -45,8 +45,8 @@ function App() {
                 )}
                 {userRole === 'trainerstudent' && (
                     <Route path="/" element={<TrainerDashboard />}>
-                        <Route path="trainer-dashboard" element={<TrainerPage />} />
-                        <Route path="trainer-details" element={<TrainerDetails />} />
+                        <Route path="trainer-dashboard" element={<TrainerPage studentName={studentName} />} />
+                        <Route path="trainer-details" element={<TrainerDetails studentId={studentId} />} />
                         <Route path="trainer-student-grade" element={<TrainerStudentGrade />} />
                         <Route path="student-view-trainer" element={<Tstudent />} />
                     </Route>

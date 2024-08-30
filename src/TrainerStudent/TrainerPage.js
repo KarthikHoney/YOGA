@@ -3,7 +3,7 @@ import { CiLogout } from 'react-icons/ci'
 import { FaUser } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom';
 
-export default function TrainerPage() {
+export default function TrainerPage({studentName}) {
   const navigate = useNavigate();
     const logout = () =>{
         navigate('/')
@@ -11,7 +11,7 @@ export default function TrainerPage() {
   return (
     <div>
       <div className='d-flex justify-content-between mb-5'>
-        <h2>Welcome Trainer</h2>
+        <h2>Welcome {studentName}</h2>
         <div>
           <a href='#' ><FaUser className='user-icon me-2' /></a>
           <a href='' onClick={logout}><CiLogout className='user-icon' /></a>
