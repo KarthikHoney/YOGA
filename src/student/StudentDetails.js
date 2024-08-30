@@ -1,83 +1,68 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { CiLogout } from 'react-icons/ci';
-import { FaUser } from 'react-icons/fa';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export default function StudentDetails() {
-  const { id } = useParams();
-  
-  const [data, setData] = useState(null);
-  const navigate = useNavigate();
+export default function StudentDetails({ studentId }) {
+    const [StudentData, setStudentData] = useState([]);
+    const navigate = useNavigate();
 
-  const logout = () => {
-    navigate('/');
-  };
+    const logout = () => {
+        navigate('/');
+    };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-  const fetchData = () => {
-    axios
-      .get(`http://localhost/CURD/studentdetails.php?id=${id}`)
-      .then((response) => {
-        if (response.data.error) {
-          console.error('Error:', response.data.error);
-          alert('Failed to fetch data');
-        } else {
-          setData(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Failed to fetch data');
-      });
-  };
+    const fetchData = () => {
+        axios
+            .get(`http://localhost/CURD/studentdetails.php?id=${studentId}`)
+            .then((response) => {
+                if (response.data.error) {
+                    console.error('Error:', response.data.error);
+                    alert('Failed to fetch data');
+                } else {
+                    // Ensure the data is an array
+                    const data = Array.isArray(response.data) ? response.data : [response.data];
+                    setStudentData(data);
+                    console.log(data);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to fetch data');
+            });
+    };
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+    if (StudentData.length === 0) {
+        return <div>Loading...</div>;
+    }
 
-  return (
-    <div>
-      <div className='d-flex justify-content-between'>
-        <h2>Student Details</h2>
+    return (
         <div>
-          <a><FaUser className='user-icon me-2' /></a>
-          <a onClick={logout}><CiLogout className='user-icon' /></a>
+            <div className='d-flex justify-content-end'>
+                <button className='ht_btn' onClick={logout}>Logout</button>
+            </div>
+            <h1 className='text-center'>Student Details</h1>
+            <div>
+                <ul>
+                    {StudentData.length > 0 ? (
+                        StudentData.map((eachStudent) => (
+                            <li style={{listStyleType:'none'}} key={eachStudent.id}>
+                                <h2>{eachStudent.name || 'N/A'}</h2>
+                                <p><strong>Reg ID:</strong> {eachStudent.id || 'N/A'}</p>
+                                <p><strong>Father's Name:</strong> {eachStudent.parentname || 'N/A'}</p>
+                                <p><strong>Phone:</strong> {eachStudent.number || 'N/A'}</p>
+                                <p><strong>Grade:</strong> {eachStudent.grade || 'N/A'}</p>
+                                <p><strong>Email:</strong> {eachStudent.gmail || 'N/A'}</p>
+                                <p><strong>Address:</strong> {eachStudent.address || 'N/A'}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No students found.</p>
+                    )}
+                </ul>
+            </div>
         </div>
-      </div>
-      <div className="border-table d-block ms-auto me-auto">
-        <table className='mt-5 table-fill'>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <td>{data.name}</td>
-            </tr>
-            <tr>
-              <th>Parent's Name</th>
-              <td>{data.parentname}</td>
-            </tr>
-            <tr>
-              <th>Email</th>
-              <td>{data.gmail}</td>
-            </tr>
-            <tr>
-              <th>Phone Number</th>
-              <td>{data.number}</td>
-            </tr>
-            <tr>
-              <th>WhatsApp Number</th>
-              <td>{data.wnumber}</td>
-            </tr>
-            <tr>
-              <th>Address</th>
-              <td>{data.address}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+    );
 }

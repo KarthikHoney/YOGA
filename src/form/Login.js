@@ -66,16 +66,17 @@ export default function Login({ onLogin }) {
                     },
                 })
                 .then((res) => {
-                    const { success, user } = res.data;
-
-                    if (success) {
-                        onLogin(formData.role, formData.name);
+                    if (res.data && res.data.success) {
+                        const { user } = res.data;
+                        const { id } = user;
+                        onLogin(formData.role, id, formData.name);
                         if (formData.role === 'individualstudent') {
                             navigate('/student-dashboard');
                         } else if (formData.role === 'trainerstudent') {
                             navigate('/trainer-dashboard');
                         }
                         localStorage.setItem("name", formData.name);
+                        localStorage.setItem('userId',id)
                         toast("Login Successfully", { autoClose: 2000 });
                         setFormData({
                             name: '',
@@ -87,9 +88,10 @@ export default function Login({ onLogin }) {
                     }
                 })
                 .catch((e) => {
-                    console.log(e, "Getting error");
-                    toast.error("Invalid credentials");
+                    console.log(e.message, "Error in login request");
+                    toast.error("Server error, please try again later");
                 });
+                
         }
     };
 
@@ -187,3 +189,7 @@ export default function Login({ onLogin }) {
         </div>
     )
 }
+
+
+
+

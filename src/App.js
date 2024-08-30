@@ -17,13 +17,16 @@ import Tstudent from './TrainerStudent/Tstudent';
 
 function App() {
     const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || '');
+    const [studentId,setStudentId]=useState(localStorage.getItem('userId')||'')
     const [studentName, setStudentName] = useState(localStorage.getItem('studentName') || ''); 
 
-    const handleLogin = (role, name) => {
+    const handleLogin = (role,id, name) => {
         setUserRole(role);
+        setStudentId(id)
         setStudentName(name);
         localStorage.setItem('userRole', role);
-        localStorage.setItem('studentName', name); 
+        localStorage.setItem('studentName', name);
+        localStorage.setItem('userId',id) 
     };
 
     const router = createBrowserRouter(
@@ -35,8 +38,8 @@ function App() {
 
                 {userRole === 'individualstudent' && (
                     <Route path="/" element={<StudentSidebar />}>
-                        <Route path="student-dashboard" element={<StudentDashboard studentName={studentName} />} />
-                        <Route path="student-details" element={<StudentDetails />} /> 
+                        <Route path="student-dashboard" element={<StudentDashboard studentName={studentName}  />} />
+                        <Route path="student-details" element={<StudentDetails studentId={studentId} />} /> 
                         <Route path="student-grade" element={<StudentGrade />} />
                     </Route>
                 )}
