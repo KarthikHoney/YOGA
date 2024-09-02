@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { CiLogout } from "react-icons/ci";
 import { FaRegEye, FaUser } from "react-icons/fa";
@@ -23,6 +23,11 @@ export default function StudentGrade() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+
+    useEffect(()=>{
+      fetchData()
+    })
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -39,11 +44,20 @@ export default function StudentGrade() {
         return Object.keys(tempErrors).length === 0;
     };
 
+
+    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
-            // Submit form data
-            // console.log("Form data submitted: ", formData);
+            
+          const fetchData=()=>{
+            axios.get('http://localhost/CURD/grade.php')
+            
+          }
+          
+
+
             toast("Submitted Successfully");
             setFormData(initialFormData);
         }

@@ -71,8 +71,7 @@ export default function RegisterPage() {
                 } else {
                     console.log(response.data);
                     setData(response.data);
-                    // Remove the following line to avoid sending all students to onStudentSubmit
-                    // onStudentSubmit(response.data)
+                    
                 }
             })
             .catch((error) => {
