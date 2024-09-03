@@ -26,7 +26,7 @@ export default function StudentGrade() {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
 
-  // Payment amounts mapped by grade
+
   const paymentAmounts = {
     1: 100,
     2: 200,
@@ -47,7 +47,7 @@ export default function StudentGrade() {
     setFormData({ ...formData, [name]: value });
 
     if (name === "grade") {
-      // Update the payment amount when grade changes
+      
       const payment = paymentAmounts[value] || '';
       setFormData({ ...formData, grade: value, payment: payment });
     }
