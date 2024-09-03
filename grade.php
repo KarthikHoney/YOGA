@@ -6,13 +6,15 @@ $id = $_GET['id'];
 $grade = $_GET['grade'];
 $payment = $_GET['payment'];
 
-$sql = "INSERT INTO grade (id, grade, payment) VALUES ('$id', '$grade', '$payment')";
-$result = mysqli_query($pdo, $sql);
+$sql = "INSERT INTO grade (id,grade,payment) VALUES (?,?,?)";
 
-if ($result) {
-    echo 'Record Created Successfully';
-} else {
-    echo 'Error: ' . mysqli_error($pdo);
+$stmt =$pdo->prepare($sql);
+$stmt->bind_param('iss',$id,$grade,$payment);
+
+if($stmt->execute()){
+    echo 'super macha';
+}else{
+    echo 'error';
 }
 
 ?>
