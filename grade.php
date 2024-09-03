@@ -3,9 +3,9 @@
 include 'connection.php';
 
 
-$id = $_GET['id'];
-$grade = $_GET['grade'];
-$payment = $_GET['payment'];
+$id = $_POST['id'];
+$grade = $_POST['grade'];
+$payment = $_POST['payment'];
 
 
 $sql = "INSERT INTO grade (id, grade, payment) VALUES (?, ?, ?)";
