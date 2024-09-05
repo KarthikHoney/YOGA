@@ -69,8 +69,14 @@ export default function StudentGrade() {
     if (validate()) {
       axios.post('http://localhost/CURD/backend_y/grade.php', formData)
         .then(response => {
-          toast("Submitted Successfully");
-          setFormData(initialFormData);
+          if(response.data){
+            toast.success("Submitted Successfully");
+            setFormData(initialFormData);
+          }
+          else{
+            toast.warn('Fuck');
+          }
+
         })
         .catch(error => {
           console.error("There was an error submitting the form!", error);
