@@ -63,7 +63,7 @@ export default function RegisterPage() {
 
     const fetchData = () => {
         axios
-            .get('http://localhost/CURD/student.php')
+            .get('http://localhost/CURD/backend_y/student.php')
             .then((response) => {
                 if (response.data.error) {
                     console.error('Error:', response.data.error);

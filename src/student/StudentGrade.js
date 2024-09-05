@@ -67,7 +67,7 @@ export default function StudentGrade() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      axios.post('http://localhost/CURD/grade.php', formData)
+      axios.post('http://localhost/CURD/backend_y/grade.php', formData)
         .then(response => {
           toast("Submitted Successfully");
           setFormData(initialFormData);
