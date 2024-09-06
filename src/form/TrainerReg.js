@@ -107,7 +107,7 @@ export default function TrainerReg() {
 
 const fetchData = () => {
     axios
-        .get('http://localhost/CURD/trainer.php')
+        .get('http://localhost/CURD/backend_y/trainer.php')
         .then((response) => {
             if (response.data.error) {
                 console.error('Error:', response.data.error);
@@ -139,7 +139,7 @@ const fetchData = () => {
       formData.address
     ) {
       axios
-                .get('http://localhost/CURD/trainer.php', {
+                .get('http://localhost/CURD/backend_y/trainer.php', {
                     params: {
                         action: 'create',
                         name: formData.name,
