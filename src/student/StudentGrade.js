@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { CiLogout } from "react-icons/ci";
 import { FaRegEye, FaUser } from "react-icons/fa";
@@ -8,11 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 export default function StudentGrade() {
-
   const navigate = useNavigate();
   const logout = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -21,11 +20,10 @@ export default function StudentGrade() {
   const initialFormData = {
     grade: '',
     payment: ''
-  }
+  };
 
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
-
 
   const paymentAmounts = {
     1: 100,
@@ -47,7 +45,6 @@ export default function StudentGrade() {
     setFormData({ ...formData, [name]: value });
 
     if (name === "grade") {
-      
       const payment = paymentAmounts[value] || '';
       setFormData({ ...formData, grade: value, payment: payment });
     }
@@ -67,10 +64,16 @@ export default function StudentGrade() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      axios.post('http://localhost/CURD/grade.php', formData)
-        .then(response => {
-          toast("Submitted Successfully");
+     
+      axios.post('http://localhost/CURD/backend_y/grade.php',{params:{
+        grade:formData.grade,
+        payment:formData.payment
+      }})
+        .then((response) => {
+          if(response.data){
+            toast("Submitted Successfully");
           setFormData(initialFormData);
+          }
         })
         .catch(error => {
           console.error("There was an error submitting the form!", error);
@@ -83,8 +86,8 @@ export default function StudentGrade() {
       <div className="d-flex justify-content-between">
         <h2>Student Grade</h2>
         <div>
-          <a href='#' ><FaUser className='user-icon me-2' /></a>
-          <a href='' onClick={logout}><CiLogout className='user-icon' /></a>
+          <a href="#"><FaUser className='user-icon me-2' /></a>
+          <a href="" onClick={logout}><CiLogout className='user-icon' /></a>
         </div>
       </div>
       <p className="mb-5">You applied exam grade</p>
@@ -145,80 +148,6 @@ export default function StudentGrade() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <div style={{ overflowX: "scroll" }}>
-        <table className="table-fill">
-          <thead>
-            <tr>
-              <th className="text-left">Applied Date</th>
-              <th className="text-left">Grade</th>
-              <th className="text-left">Payment</th>
-              <th className="text-left">Hall Ticket</th>
-              <th className="text-left">Result</th>
-              <th className="text-left">Certificate</th>
-            </tr>
-          </thead>
-          <tbody className="table-hover">
-            <tr>
-              <td className="text-left">09-07-2024</td>
-              <td className="text-left">6</td>
-              <td className="text-left">600</td>
-              <td className="text-left">
-                <Button
-                  variant="outline-primary shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Hall Ticket
-                </Button>
-              </td>
-              <td className="text-left">
-                <Button
-                  variant="outline-success shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Result
-                </Button>
-              </td>
-              <td className="text-left">
-                <Button
-                  variant="outline-success shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Certificate
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-left">10-07-2024</td>
-              <td className="text-left">7</td>
-              <td className="text-left">700</td>
-              <td className="text-left">
-                <Button
-                  variant="outline-primary shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Hall Ticket
-                </Button>
-              </td>
-              <td className="text-left">
-                <Button
-                  variant="outline-success shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Result
-                </Button>
-              </td>
-              <td className="text-left">
-                <Button
-                  variant="outline-success shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Certificate
-                </Button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }
