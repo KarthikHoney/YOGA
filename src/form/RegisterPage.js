@@ -20,7 +20,6 @@ export default function RegisterPage() {
         number: '',
         wnumber: '',
         address: '',
-        grade: '',
         password: '',
         cpassword: '',
         gmail: ''
@@ -49,7 +48,6 @@ export default function RegisterPage() {
         if (!formData.number) tempErrors.number = 'Number is required';
         if (!formData.wnumber) tempErrors.wnumber = 'WhatsApp Number is required';
         if (!formData.address) tempErrors.address = 'Address is required';
-        if (!formData.grade) tempErrors.grade = 'Grade is required';
         if (!formData.password) tempErrors.password = 'Password is required';
         if (formData.password !== formData.cpassword) tempErrors.cpassword = 'Passwords do not match';
         if (!formData.gmail) tempErrors.gmail = 'Gmail is required';
@@ -63,7 +61,7 @@ export default function RegisterPage() {
 
     const fetchData = () => {
         axios
-            .get('http://localhost/CURD/backend_y/student.php')
+            .get('http://localhost/CURD/backend_y/yoga_backend/student.php')
             .then((response) => {
                 if (response.data.error) {
                     console.error('Error:', response.data.error);
@@ -84,7 +82,7 @@ export default function RegisterPage() {
         e.preventDefault();
         if (validate()) {
             axios
-                .get('http://localhost/CURD/student.php', {
+                .get('http://localhost/CURD/backend_y/yoga_backend/student.php', {
                     params: {
                         action: 'create',
                         name: formData.name,
@@ -94,7 +92,6 @@ export default function RegisterPage() {
                         address: formData.address,
                         password: formData.password,
                         wnumber: formData.wnumber,
-                        grade: formData.grade,
                         number: formData.number,
                     },
                 })
@@ -106,7 +103,7 @@ export default function RegisterPage() {
                         
                         toast('Submitted Successfully');
                         setFormData(initialFormData);
-                        navigate('/student-details'); 
+                        navigate('/'); 
                     } else {
                         alert('Failed to create record');
                     }
@@ -229,36 +226,11 @@ export default function RegisterPage() {
                         />
                         {errors.wnumber && <div className="error">{errors.wnumber}</div>}
                     </div>
-                    <div className="col-md-6 form-controls">
-                        <label htmlFor="grade">Choose Exam Grade</label>
-                        <select
-                            id="grade"
-                            className='mb-2'
-                            name="grade"
-                            value={formData.grade}
-                            onChange={handleChange}
-                        >
-                            <option value="">Select Grade</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                        {errors.grade && <div className="error">{errors.grade}</div>}
-                    </div>
-                    <div className="col-md-6 form-controls">
+                    <div className="col-12 form-controls">
                         <label htmlFor="address">Address</label>
                         <textarea
                             name="address"
-                            rows="1"
+                            rows="3"
                             cols="25"
                             id="address"
                             value={formData.address}
