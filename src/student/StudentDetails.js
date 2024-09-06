@@ -16,7 +16,7 @@ export default function StudentDetails({ studentId }) {
 
   const fetchData = () => {
     axios
-      .get(`http://localhost/CURD/studentdetails.php?id=${studentId}`)
+      .get(`http://localhost/CURD/backend_y/studentdetails.php?id=${studentId}`)
       .then((response) => {
         if (response.data.error) {
           console.error("Error:", response.data.error);
@@ -26,8 +26,8 @@ export default function StudentDetails({ studentId }) {
           const data = Array.isArray(response.data)
             ? response.data
             : [response.data];
-          setStudentData(data);
-          console.log(data);
+            setStudentData(data);
+            console.log(data);
         }
       })
       .catch((error) => {
@@ -64,15 +64,15 @@ export default function StudentDetails({ studentId }) {
                   </tr>
                   <tr>
                     <th>Gmail</th>
-                    <td>{eachStudent.gmail}</td>
+                    <td>{eachStudent.email}</td>
                   </tr>
                   <tr>
                     <th>Phone Number</th>
-                    <td>{eachStudent.number}</td>
+                    <td>{eachStudent.wnumber}</td>
                   </tr>
                   <tr>
                     <th>WhatsApp Number</th>
-                    <td>{eachStudent.wnumber}</td>
+                    <td>{eachStudent.number}</td>
                   </tr>
                   <tr>
                     <th>Address</th>

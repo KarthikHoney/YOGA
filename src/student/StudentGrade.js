@@ -5,97 +5,170 @@ import { FaRegEye, FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 export default function StudentGrade() {
   const navigate = useNavigate();
-    const logout = () =>{
-        navigate('/')
+  const logout = () => {
+    navigate('/');
+  };
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const initialFormData = {
+    grade: '',
+    payment: ''
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [errors, setErrors] = useState({});
+  const [grade,setGrade] = useState([]);
+
+  const paymentAmounts = {
+    1: 100,
+    2: 200,
+    3: 300,
+    4: 400,
+    5: 500,
+    6: 600,
+    7: 700,
+    8: 800,
+    9: 900,
+    10: 1000,
+    11: 1100,
+    12: 1200
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "grade") {
+      const payment = paymentAmounts[value] || '';
+      setFormData({ ...formData, grade: value, payment: payment });
     }
-    const [show, setShow] = useState(false);
-  
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const initialFormData = {
-        grade: ''
+
+    if (value) {
+      setErrors({ ...errors, [name]: "" });
     }
-    const [formData, setFormData] = useState(initialFormData);
-    const [errors, setErrors] = useState({});
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+  const validate = () => {
+    let tempErrors = {};
+    if (!formData.grade) tempErrors.grade = "Grade is required";
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
 
-        if(value){
-            setErrors({...errors, [name] : ""});
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+
+
+      axios.get('http://localhost/CURD/backend_y/yoga_backend/grade.php',{
+        params:{
+          action:"insert",
+          grade : formData.grade,
+          payment : formData.payment
         }
-    };
-
-    const validate = () => {
-        let tempErrors = {};
-        if (!formData.grade) tempErrors.grade = "Grade is required";
-        setErrors(tempErrors);
-        return Object.keys(tempErrors).length === 0;
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validate()) {
-            // Submit form data
-            // console.log("Form data submitted: ", formData);
-            toast("Submitted Successfully");
-            setFormData(initialFormData);
+      })
+      .then(response => {
+        if(response.data){
+          toast.success("Grade Applied Successfully");
+          setFormData(initialFormData);
+          const gradeData = Array.isArray(response.data) ? response.data:[response.data];
+          setGrade(gradeData);
         }
-    };
+        else{
+          toast.warn('no data');
+        }
+
+      })
+
+      .catch(error => {
+        console.error("There was an error submitting the form!", error);
+      });
+    }
+  };
+
+  const getData = ()=>{
+    axios.get('http://localhost/CURD/backend_y/yoga_backend/grade.php',{
+      params:{
+        action:'getdata',
+        grade:formData.grade,
+        payment:formData.payment,
+        datetime:formData.date
+      }
+    })
+    .then((res) => {
+      if(res.data){
+        
+      }
+    })
+  }
+
   return (
     <div className="">
       <div className="d-flex justify-content-between">
         <h2>Student Grade</h2>
         <div>
-          <a href='#' ><FaUser className='user-icon me-2' /></a>
-          <a href='' onClick={logout}><CiLogout className='user-icon' /></a>
+          <a href="#"><FaUser className='user-icon me-2' /></a>
+          <a href="" onClick={logout}><CiLogout className='user-icon' /></a>
         </div>
       </div>
       <p className="mb-5">You applied exam grade</p>
-      <Button variant="primary shadow-none"  onClick={handleShow} className="edit py-2 px-3 mb-4" >Apply Grade</Button>
+      <Button variant="primary shadow-none" onClick={handleShow} className="edit py-2 px-3 mb-4">Apply Grade</Button>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Trainer</Modal.Title>
+          <Modal.Title>Apply for Grade</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-0">
-        <Form autoComplete='off' className='add-trainer p-3' onSubmit={handleSubmit}>
+          <Form autoComplete='off' className='add-trainer p-3' onSubmit={handleSubmit}>
             <h2 className='text-center mb-3'>Register For Student</h2>
             <div className="row">
-                <div className="col-12 form-controls">
-                    <label htmlFor="grade">Choose Exam Grade</label>
-                    <select
-                        id="grade"
-                        className='mb-2'
-                        name="grade"
-                        value={formData.grade}
-                        onChange={handleChange}
-                    >
-                        <option value="">Select Grade</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                    {errors.grade && <div className="error text-light">{errors.grade}</div>}
-                </div>
-                </div>
-                <button type='submit' onClick={handleSubmit} className='mt-3 ht_btn'>Submit</button>
-            </Form>
-            <ToastContainer />
+              <div className="col-12 form-controls">
+                <label htmlFor="grade">Choose Exam Grade</label>
+                <select
+                  id="grade"
+                  className='mb-2'
+                  name="grade"
+                  value={formData.grade}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Grade</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                {errors.grade && <div className="error text-light">{errors.grade}</div>}
+              </div>
+
+              <div className="col-12 form-controls">
+                <label htmlFor="payment">Payment Amount</label>
+                <input
+                  type="text"
+                  id="payment"
+                  name="payment"
+                  className='mb-2'
+                  value={formData.payment}
+                  readOnly
+                />
+              </div>
+            </div>
+            <button type='submit' className='mt-3 ht_btn'>Submit</button>
+          </Form>
+          <ToastContainer />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -104,23 +177,24 @@ export default function StudentGrade() {
         </Modal.Footer>
       </Modal>
       <div style={{ overflowX: "scroll" }}>
-        <table class="table-fill">
+        {grade.map((grades,index) =>(
+          <table className="table-fill" key={index}>
           <thead>
             <tr>
-              <th class="text-left">Applied Date</th>
-              <th class="text-left">Grade</th>
-              <th class="text-left">Payment</th>
-              <th class="text-left">Hall Ticket</th>
-              <th class="text-left">Result</th>
-              <th class="text-left">Certificate</th>
+              <th className="text-left">Applied Date</th>
+              <th className="text-left">Grade</th>
+              <th className="text-left">Payment</th>
+              <th className="text-left">Hall Ticket</th>
+              <th className="text-left">Result</th>
+              <th className="text-left">Certificate</th>
             </tr>
           </thead>
-          <tbody class="table-hover">
+          <tbody className="table-hover">
             <tr>
-              <td class="text-left">09-07-2024</td>
-              <td class="text-left">6</td>
-              <td class="text-left">600</td>
-              <td class="text-left">
+              <td className="text-left">{grades.date}</td>
+              <td className="text-left">{grades.grade}</td>
+              <td className="text-left">{grades.payment}</td>
+              <td className="text-left">
                 <Button
                   variant="outline-primary shadow-none"
                   className="edit py-2 px-3"
@@ -128,7 +202,7 @@ export default function StudentGrade() {
                   <FaRegEye /> View Hall Ticket
                 </Button>
               </td>
-              <td class="text-left">
+              <td className="text-left">
                 <Button
                   variant="outline-success shadow-none"
                   className="edit py-2 px-3"
@@ -136,36 +210,7 @@ export default function StudentGrade() {
                   <FaRegEye /> View Result
                 </Button>
               </td>
-              <td class="text-left">
-                <Button
-                  variant="outline-success shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Certificate
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-left">10-07-2024</td>
-              <td class="text-left">7</td>
-              <td class="text-left">700</td>
-              <td class="text-left">
-                <Button
-                  variant="outline-primary shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Hall Ticket
-                </Button>
-              </td>
-              <td class="text-left">
-                <Button
-                  variant="outline-success shadow-none"
-                  className="edit py-2 px-3"
-                >
-                  <FaRegEye /> View Result
-                </Button>
-              </td>
-              <td class="text-left">
+              <td className="text-left">
                 <Button
                   variant="outline-success shadow-none"
                   className="edit py-2 px-3"
@@ -176,6 +221,8 @@ export default function StudentGrade() {
             </tr>
           </tbody>
         </table>
+        ))}
+        
       </div>
     </div>
   );

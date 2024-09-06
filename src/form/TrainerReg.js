@@ -15,8 +15,8 @@ export default function TrainerReg() {
     name: "",
     studio: "",
     gmail: "",
-    number: "",
-    wnumber: "",
+    tnumber: "",
+    twnumber: "",
     address: "",
     password: "",
     cpassword: "",
@@ -70,19 +70,19 @@ export default function TrainerReg() {
     } else if (!validateEmail(formData.gmail)) {
       tempErrors.gmail = "Enter Valid Gmail";
     }
-    if (!formData.number) {
-      tempErrors.number = "Please enter your Number";
-    } else if (!isNumeric(formData.number)) {
-      tempErrors.number = "Please enter Numbers Only";
-    } else if (!validatePhoneNumber(formData.number)) {
-      tempErrors.number = "Number must be 10 digits";
+    if (!formData.tnumber) {
+      tempErrors.tnumber = "Please enter your Number";
+    } else if (!isNumeric(formData.tnumber)) {
+      tempErrors.tnumber = "Please enter Numbers Only";
+    } else if (!validatePhoneNumber(formData.tnumber)) {
+      tempErrors.tnumber = "Number must be 10 digits";
     }
-    if (!formData.wnumber) {
-      tempErrors.wnumber = "Please enter your Whatsappp No";
-    } else if (!isNumeric(formData.wnumber)) {
-      tempErrors.wnumber = "Please enter Numbers Only";
-    } else if (!validatePhoneNumber(formData.wnumber)) {
-      tempErrors.wnumber = "Number Must be 10 digits";
+    if (!formData.twnumber) {
+      tempErrors.twnumber = "Please enter your Whatsappp No";
+    } else if (!isNumeric(formData.twnumber)) {
+      tempErrors.twnumber = "Please enter Numbers Only";
+    } else if (!validatePhoneNumber(formData.twnumber)) {
+      tempErrors.twnumber = "Number Must be 10 digits";
     }
     if (!formData.address) {
       tempErrors.address = "Please Enter Your address";
@@ -107,7 +107,7 @@ export default function TrainerReg() {
 
 const fetchData = () => {
     axios
-        .get('http://localhost/CURD/trainer.php')
+        .get('http://localhost/CURD/backend_y/trainer.php')
         .then((response) => {
             if (response.data.error) {
                 console.error('Error:', response.data.error);
@@ -134,32 +134,29 @@ const fetchData = () => {
       formData.studio &&
       formData.gmail &&
       formData.password &&
-      formData.number &&
-      formData.wnumber &&
+      formData.tnumber &&
+      formData.twnumber &&
       formData.address
     ) {
       axios
-                .get('http://localhost/CURD/trainer.php', {
+                .get('http://localhost/CURD/backend_y/trainer.php', {
                     params: {
                         action: 'create',
                         name: formData.name,
                         gmail: formData.gmail,
                         studio:formData.studio,
-                       
                         address:formData.address,
                         password:formData.password,
-                        wnumber:formData.wnumber,
-                       
-                        number:formData.number,
+                        twnumber:formData.twnumber,
+                        tnumber:formData.tnumber,
                     },
                 })
                 .then((response) => {
                     console.log(response.data);
-                    if (response.data.message) {
-                        alert(response.data.message);
-                        fetchData();
+                    if (response.data) {
                         toast('Submitted Successfully');
                         setFormData(initialFormData);
+                        navigate('/')
                     } else {
                         alert('Failed to create record');
                     }
@@ -260,28 +257,28 @@ const fetchData = () => {
             )}
           </div>
           <div className="col-md-6 form-controls">
-            <label htmlFor="number">Phone Number</label>
+            <label htmlFor="tnumber">Phone Number</label>
             <input
               type="text"
-              id="number"
-              name="number"
-              value={formData.number}
+              id="tnumber"
+              name="tnumber"
+              value={formData.tnumber}
               onChange={handleChange}
               className="mb-2"
             />
-            {errors.number && <div className="error">{errors.number}</div>}
+            {errors.tnumber && <div className="error">{errors.tnumber}</div>}
           </div>
           <div className="col-md-6 form-controls">
-            <label htmlFor="wnumber">WhatsApp Number</label>
+            <label htmlFor="twnumber">WhatsApp Number</label>
             <input
               type="text"
-              id="wnumber"
-              name="wnumber"
-              value={formData.wnumber}
+              id="twnumber"
+              name="twnumber"
+              value={formData.twnumber}
               onChange={handleChange}
               className="mb-2"
             />
-            {errors.wnumber && <div className="error">{errors.wnumber}</div>}
+            {errors.twnumber && <div className="error">{errors.twnumber}</div>}
           </div>
           <div className="col-md-12 form-controls">
             <label htmlFor="address">Address</label>
