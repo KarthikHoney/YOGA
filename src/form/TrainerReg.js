@@ -107,7 +107,11 @@ export default function TrainerReg() {
 
 const fetchData = () => {
     axios
+<<<<<<< HEAD
         .get('http://localhost/CURD/backend_y/trainer.php')
+=======
+        .get('http://localhost/CURD/backend_y/yoga_backend/trainer.php')
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
         .then((response) => {
             if (response.data.error) {
                 console.error('Error:', response.data.error);

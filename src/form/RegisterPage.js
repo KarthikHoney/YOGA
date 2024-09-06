@@ -20,7 +20,10 @@ export default function RegisterPage() {
         number: '',
         wnumber: '',
         address: '',
+<<<<<<< HEAD
         
+=======
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
         password: '',
         cpassword: '',
         gmail: ''
@@ -62,7 +65,11 @@ export default function RegisterPage() {
 
     const fetchData = () => {
         axios
+<<<<<<< HEAD
             .get('http://localhost/CURD/backend_y/student.php')
+=======
+            .get('http://localhost/CURD/backend_y/yoga_backend/student.php')
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
             .then((response) => {
                 if (response.data.error) {
                     console.error('Error:', response.data.error);
@@ -83,7 +90,11 @@ export default function RegisterPage() {
         e.preventDefault();
         if (validate()) {
             axios
+<<<<<<< HEAD
                 .get('http://localhost/CURD/backend_y/student.php', {
+=======
+                .get('http://localhost/CURD/backend_y/yoga_backend/student.php', {
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
                     params: {
                         action: 'create',
                         name: formData.name,
@@ -104,7 +115,11 @@ export default function RegisterPage() {
                         
                         toast('Submitted Successfully');
                         setFormData(initialFormData);
+<<<<<<< HEAD
                         navigate('/login'); 
+=======
+                        navigate('/'); 
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
                     } else {
                         alert('Failed to create record');
                     }
@@ -227,12 +242,16 @@ export default function RegisterPage() {
                         />
                         {errors.wnumber && <div className="error">{errors.wnumber}</div>}
                     </div>
+<<<<<<< HEAD
                     
                     <div className="col-md-6 form-controls">
+=======
+                    <div className="col-12 form-controls">
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
                         <label htmlFor="address">Address</label>
                         <textarea
                             name="address"
-                            rows="1"
+                            rows="3"
                             cols="25"
                             id="address"
                             value={formData.address}

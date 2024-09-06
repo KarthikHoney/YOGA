@@ -24,6 +24,7 @@ export default function StudentGrade() {
 
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
+  const [grade,setGrade] = useState([]);
 
   const paymentAmounts = {
     1: 100,
@@ -64,6 +65,7 @@ export default function StudentGrade() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+<<<<<<< HEAD
      
       axios.post('http://localhost/CURD/backend_y/grade.php',{params:{
         grade:formData.grade,
@@ -78,8 +80,49 @@ export default function StudentGrade() {
         .catch(error => {
           console.error("There was an error submitting the form!", error);
         });
+=======
+      axios.get('http://localhost/CURD/backend_y/yoga_backend/grade.php',{
+        params:{
+          action:"insert",
+          grade : formData.grade,
+          payment : formData.payment
+        }
+      })
+      .then(response => {
+        if(response.data){
+          toast.success("Grade Applied Successfully");
+          setFormData(initialFormData);
+          const gradeData = Array.isArray(response.data) ? response.data:[response.data];
+          setGrade(gradeData);
+        }
+        else{
+          toast.warn('no data');
+        }
+
+      })
+
+      .catch(error => {
+        console.error("There was an error submitting the form!", error);
+      });
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
     }
   };
+
+  const getData = ()=>{
+    axios.get('http://localhost/CURD/backend_y/yoga_backend/grade.php',{
+      params:{
+        action:'getdata',
+        grade:formData.grade,
+        payment:formData.payment,
+        datetime:formData.date
+      }
+    })
+    .then((res) => {
+      if(res.data){
+        
+      }
+    })
+  }
 
   return (
     <div className="">
@@ -148,6 +191,57 @@ export default function StudentGrade() {
           </Button>
         </Modal.Footer>
       </Modal>
+<<<<<<< HEAD
+=======
+      <div style={{ overflowX: "scroll" }}>
+        {grade.map((grades,index) =>(
+          <table className="table-fill" key={index}>
+          <thead>
+            <tr>
+              <th className="text-left">Applied Date</th>
+              <th className="text-left">Grade</th>
+              <th className="text-left">Payment</th>
+              <th className="text-left">Hall Ticket</th>
+              <th className="text-left">Result</th>
+              <th className="text-left">Certificate</th>
+            </tr>
+          </thead>
+          <tbody className="table-hover">
+            <tr>
+              <td className="text-left">{grades.date}</td>
+              <td className="text-left">{grades.grade}</td>
+              <td className="text-left">{grades.payment}</td>
+              <td className="text-left">
+                <Button
+                  variant="outline-primary shadow-none"
+                  className="edit py-2 px-3"
+                >
+                  <FaRegEye /> View Hall Ticket
+                </Button>
+              </td>
+              <td className="text-left">
+                <Button
+                  variant="outline-success shadow-none"
+                  className="edit py-2 px-3"
+                >
+                  <FaRegEye /> View Result
+                </Button>
+              </td>
+              <td className="text-left">
+                <Button
+                  variant="outline-success shadow-none"
+                  className="edit py-2 px-3"
+                >
+                  <FaRegEye /> View Certificate
+                </Button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        ))}
+        
+      </div>
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
     </div>
   );
 }

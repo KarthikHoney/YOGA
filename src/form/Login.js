@@ -58,7 +58,11 @@ export default function Login({ onLogin }) {
         e.preventDefault();
         if (validate()) {
             axios
+<<<<<<< HEAD
                 .get("http://localhost/CURD/backend_y/login.php", {
+=======
+                .get("http://localhost/CURD/backend_y/yoga_backend/login.php", {
+>>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
                     params: {
                         action: formData.role,
                         name: formData.name,
