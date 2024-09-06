@@ -16,11 +16,7 @@ export default function StudentDetails({ studentId }) {
 
   const fetchData = () => {
     axios
-<<<<<<< HEAD
       .get(`http://localhost/CURD/backend_y/studentdetails.php?id=${studentId}`)
-=======
-      .get(`http://localhost/CURD/backend_y/yoga_backend/studentdetails.php?id=${studentId}`)
->>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
       .then((response) => {
         if (response.data.error) {
           console.error("Error:", response.data.error);

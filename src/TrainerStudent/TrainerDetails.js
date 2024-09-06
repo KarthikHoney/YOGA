@@ -17,7 +17,7 @@ export default function TrainerDetails({ studentId }) {
   }, []);
 
   const fetchUser = () => {
-    axios.get(`http://localhost/CURD/trainerDetails.php?id=${studentId}`)
+    axios.get(`http://localhost/CURD/backend_y/trainerDetails.php?id=${studentId}`)
       .then((response) => {
         if (response.data.error) {
           console.log("Error", response.data.error);

@@ -65,22 +65,8 @@ export default function StudentGrade() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-<<<<<<< HEAD
-     
-      axios.post('http://localhost/CURD/backend_y/grade.php',{params:{
-        grade:formData.grade,
-        payment:formData.payment
-      }})
-        .then((response) => {
-          if(response.data){
-            toast("Submitted Successfully");
-          setFormData(initialFormData);
-          }
-        })
-        .catch(error => {
-          console.error("There was an error submitting the form!", error);
-        });
-=======
+
+
       axios.get('http://localhost/CURD/backend_y/yoga_backend/grade.php',{
         params:{
           action:"insert",
@@ -104,7 +90,6 @@ export default function StudentGrade() {
       .catch(error => {
         console.error("There was an error submitting the form!", error);
       });
->>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
     }
   };
 
@@ -191,8 +176,6 @@ export default function StudentGrade() {
           </Button>
         </Modal.Footer>
       </Modal>
-<<<<<<< HEAD
-=======
       <div style={{ overflowX: "scroll" }}>
         {grade.map((grades,index) =>(
           <table className="table-fill" key={index}>
@@ -241,7 +224,6 @@ export default function StudentGrade() {
         ))}
         
       </div>
->>>>>>> 665fcbf7c3132933ce98175652709e9ff8944282
     </div>
   );
 }
