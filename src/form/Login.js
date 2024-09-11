@@ -67,6 +67,7 @@ export default function Login({ onLogin }) {
         })
         .then((response) => {
           if (response.data) {
+            console.log(response.data);
             const { user } = response.data;
             const { id } = user;
 
