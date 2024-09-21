@@ -12,17 +12,18 @@ export default function StudentDetails({ studentId }) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [studentId]);
 
   const fetchData = () => {
+    
     axios
-      .get(`http://localhost/CURD/backend_y/studentdetails.php?id=${studentId}`)
+      .post("http://localhost/newyoga/studentdetails.php",{userId:studentId})
       .then((response) => {
         if (response.data.error) {
           console.error("Error:", response.data.error);
           alert("Failed to fetch data");
         } else {
-          // Ensure the data is an array
+         
           const data = Array.isArray(response.data)
             ? response.data
             : [response.data];
@@ -64,7 +65,7 @@ export default function StudentDetails({ studentId }) {
                   </tr>
                   <tr>
                     <th>Gmail</th>
-                    <td>{eachStudent.email}</td>
+                    <td>{eachStudent.gmail}</td>
                   </tr>
                   <tr>
                     <th>Phone Number</th>

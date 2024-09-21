@@ -5,7 +5,7 @@ import { CiLogout } from "react-icons/ci";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-export default function TrainerDetails({ studentId }) {
+export default function TrainerDetails({ trainerId }) {
   const [trainer, setTrainer] = useState([]);
   const navigate = useNavigate();
   const logout = () => {
@@ -14,10 +14,10 @@ export default function TrainerDetails({ studentId }) {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [trainerId]);
 
   const fetchUser = () => {
-    axios.get(`http://localhost/CURD/backend_y/trainerDetails.php?id=${studentId}`)
+    axios.post("http://localhost/newyoga/trainerdetails.php",{userId:trainerId})
       .then((response) => {
         if (response.data.error) {
           console.log("Error", response.data.error);

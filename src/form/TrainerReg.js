@@ -1,10 +1,10 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
+import axios from "axios";
 
 export default function TrainerReg() {
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ export default function TrainerReg() {
     name: "",
     studio: "",
     gmail: "",
-    tnumber: "",
-    twnumber: "",
+    number: "",
+    wnumber: "",
     address: "",
     password: "",
     cpassword: "",
@@ -36,136 +36,127 @@ export default function TrainerReg() {
     }
   };
 
-  const validateEmail = (email) => {
-    const re = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
-    return re.test(String(email).toLowerCase());
-  };
+  // const validateEmail = (email) => {
+  //   const re = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
+  //   return re.test(String(email).toLowerCase());
+  // };
 
-  const validatePhoneNumber = (number) => {
-    const re = /^\d{10}$/;
-    return re.test(number);
-  };
-  const isNumeric = (value) => {
-    return /^\d*$/.test(value);
-  };
-  const validatePassword = (password) => {
-    const re = /^(?=.*[A-Z])(?=.*[\W]).{8,}$/;
-    return re.test(password);
-  };
+  // const validatePhoneNumber = (number) => {
+  //   const re = /^\d{10}$/;
+  //   return re.test(number);
+  // };
+  // const isNumeric = (value) => {
+  //   return /^\d*$/.test(value);
+  // };
+  // const validatePassword = (password) => {
+  //   const re = /^(?=.*[A-Z])(?=.*[\W]).{8,}$/;
+  //   return re.test(password);
+  // };
 
-  const validate = () => {
-    let tempErrors = {};
-    if (!formData.name) {
-      tempErrors.name = "Please Enter Your Name";
-    } else if (formData.name.length < 3) {
-      tempErrors.name = "Name atleast have 3 characters";
-    }
-    if (!formData.studio) {
-      tempErrors.studio = "Please Enter Your Studio Name";
-    } else if (formData.studio.length < 3) {
-      tempErrors.studio = "Studio Name atleast have 3 characters";
-    }
-    if (!formData.gmail) {
-      tempErrors.gmail = "Gmail is required";
-    } else if (!validateEmail(formData.gmail)) {
-      tempErrors.gmail = "Enter Valid Gmail";
-    }
-    if (!formData.tnumber) {
-      tempErrors.tnumber = "Please enter your Number";
-    } else if (!isNumeric(formData.tnumber)) {
-      tempErrors.tnumber = "Please enter Numbers Only";
-    } else if (!validatePhoneNumber(formData.tnumber)) {
-      tempErrors.tnumber = "Number must be 10 digits";
-    }
-    if (!formData.twnumber) {
-      tempErrors.twnumber = "Please enter your Whatsappp No";
-    } else if (!isNumeric(formData.twnumber)) {
-      tempErrors.twnumber = "Please enter Numbers Only";
-    } else if (!validatePhoneNumber(formData.twnumber)) {
-      tempErrors.twnumber = "Number Must be 10 digits";
-    }
-    if (!formData.address) {
-      tempErrors.address = "Please Enter Your address";
-    } else if (formData.address.length < 10) {
-      tempErrors.address = "Address atleast 10 characters";
-    }
-    if (!formData.password) {
-      tempErrors.password = "Please Enter Password";
-    } else if (!validatePassword(formData.password)) {
-      tempErrors.password =
-        "Password must be at least 8 characters long, contain one uppercase letter and one symbol";
-    }
-    if (formData.password !== formData.cpassword)
-      tempErrors.cpassword = "Passwords do not match";
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
-  };
+  // const validate = () => {
+  //   let tempErrors = {};
+  //   if (!formData.name) {
+  //     tempErrors.name = "Please Enter Your Name";
+  //   } else if (formData.name.length < 3) {
+  //     tempErrors.name = "Name atleast have 3 characters";
+  //   }
+  //   if (!formData.studio) {
+  //     tempErrors.studio = "Please Enter Your Studio Name";
+  //   } else if (formData.studio.length < 3) {
+  //     tempErrors.studio = "Studio Name atleast have 3 characters";
+  //   }
+  //   if (!formData.gmail) {
+  //     tempErrors.gmail = "Gmail is required";
+  //   } else if (!validateEmail(formData.gmail)) {
+  //     tempErrors.gmail = "Enter Valid Gmail";
+  //   }
+  //   if (!formData.number) {
+  //     tempErrors.number = "Please enter your Number";
+  //   } else if (!isNumeric(formData.number)) {
+  //     tempErrors.number = "Please enter Numbers Only";
+  //   } else if (!validatePhoneNumber(formData.number)) {
+  //     tempErrors.number = "Number must be 10 digits";
+  //   }
+  //   if (!formData.wnumber) {
+  //     tempErrors.wnumber = "Please enter your Whatsappp No";
+  //   } else if (!isNumeric(formData.wnumber)) {
+  //     tempErrors.wnumber = "Please enter Numbers Only";
+  //   } else if (!validatePhoneNumber(formData.wnumber)) {
+  //     tempErrors.wnumber = "Number Must be 10 digits";
+  //   }
+  //   if (!formData.address) {
+  //     tempErrors.address = "Please Enter Your address";
+  //   } else if (formData.address.length < 10) {
+  //     tempErrors.address = "Address atleast 10 characters";
+  //   }
+  //   if (!formData.password) {
+  //     tempErrors.password = "Please Enter Password";
+  //   } else if (!validatePassword(formData.password)) {
+  //     tempErrors.password =
+  //       "Password must be at least 8 characters long, contain one uppercase letter and one symbol";
+  //   }
+  //   if (formData.password !== formData.cpassword)
+  //     tempErrors.cpassword = "Passwords do not match";
+  //   setErrors(tempErrors);
+  //   return Object.keys(tempErrors).length === 0;
+  // };
 
   useEffect(() => {
     fetchData();
-}, []);
+  }, []);
 
-const fetchData = () => {
+  const fetchData = () => {
     axios
-        .get('http://localhost/CURD/backend_y/trainer.php')
-        .then((response) => {
-            if (response.data.error) {
-                console.error('Error:', response.data.error);
-                alert('Failed to fetch data');
-            } else {
-                console.log(response.data);
-                setData(response.data);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Failed to fetch data');
-        });
-};
-
-
-  
+      .post("http://localhost/newyoga/trainer.php")
+      .then((response) => {
+        if (response.data.error) {
+          console.error("Error:", response.data.error);
+          alert("Failed to fetch data");
+        } else {
+          console.log(response.data);
+          setData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Failed to fetch data");
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      validate() &&
-      formData.name &&
-      formData.studio &&
-      formData.gmail &&
-      formData.password &&
-      formData.tnumber &&
-      formData.twnumber &&
-      formData.address
-    ) {
+    if (true) {
+      const dataToSend = new FormData();
+
+      dataToSend.append("name", formData.name);
+      dataToSend.append("studio", formData.studio);
+      dataToSend.append("gmail", formData.gmail);
+      dataToSend.append("password", formData.password);
+      dataToSend.append("wnumber", formData.wnumber);
+      dataToSend.append("number", formData.number);
+      dataToSend.append("address", formData.address);
+      dataToSend.append("action", "create");
+
       axios
-                .get('http://localhost/CURD/backend_y/trainer.php', {
-                    params: {
-                        action: 'create',
-                        name: formData.name,
-                        gmail: formData.gmail,
-                        studio:formData.studio,
-                        address:formData.address,
-                        password:formData.password,
-                        twnumber:formData.twnumber,
-                        tnumber:formData.tnumber,
-                    },
-                })
-                .then((response) => {
-                    console.log(response.data);
-                    if (response.data) {
-                        toast('Submitted Successfully');
-                        setFormData(initialFormData);
-                        navigate('/')
-                    } else {
-                        alert('Failed to create record');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert('Failed to create record');
-                });
-      
+        .post("http://localhost/newyoga/trainer.php", dataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.status === 1) {
+            toast.success("Submitted Successfully");
+            setFormData(initialFormData);
+            goToLogin();
+          } else {
+            toast.error("Record Not Fetch From FrontENd Side");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Failed to create record");
+        });
     } else {
       console.log("Form data is incomplete or invalid");
     }
@@ -257,28 +248,28 @@ const fetchData = () => {
             )}
           </div>
           <div className="col-md-6 form-controls">
-            <label htmlFor="tnumber">Phone Number</label>
+            <label htmlFor="number">Phone Number</label>
             <input
               type="text"
-              id="tnumber"
-              name="tnumber"
-              value={formData.tnumber}
+              id="number"
+              name="number"
+              value={formData.number}
               onChange={handleChange}
               className="mb-2"
             />
-            {errors.tnumber && <div className="error">{errors.tnumber}</div>}
+            {errors.number && <div className="error">{errors.number}</div>}
           </div>
           <div className="col-md-6 form-controls">
-            <label htmlFor="twnumber">WhatsApp Number</label>
+            <label htmlFor="wnumber">WhatsApp Number</label>
             <input
               type="text"
-              id="twnumber"
-              name="twnumber"
-              value={formData.twnumber}
+              id="wnumber"
+              name="wnumber"
+              value={formData.wnumber}
               onChange={handleChange}
               className="mb-2"
             />
-            {errors.twnumber && <div className="error">{errors.twnumber}</div>}
+            {errors.wnumber && <div className="error">{errors.wnumber}</div>}
           </div>
           <div className="col-md-12 form-controls">
             <label htmlFor="address">Address</label>

@@ -57,37 +57,34 @@ export default function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      const dataToSend = new FormData();
+
+      dataToSend.append("name", formData.name);
+      dataToSend.append("password", formData.password);
+      dataToSend.append("action", formData.role);
+
       axios
-        .get("http://localhost/CURD/backend_y/login.php", {
-          params: {
-            action: formData.role,
-            name: formData.name,
-            password: formData.password,
+        .post("http://localhost/newyoga/login.php", dataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((response) => {
           if (response.data) {
-            console.log(response.data);
-            const { user } = response.data;
-            const { id } = user;
 
-            onLogin(formData.role, id, formData.name);
+            console.log(response.data ," data");
+            const {user}=response.data
+            onLogin(formData.role,user.id, user.name);
 
-            if (formData.role === "individualstudent") {
-              navigate("/student-dashboard");
-            } else if (formData.role === "trainerstudent") {
-              navigate("/trainer-dashboard");
-            }
+            formData.role === "individualstudent"
+              ? navigate("/student-dashboard")
+              : navigate("/trainer-dashboard");
 
-            localStorage.setItem("name", formData.name);
-            localStorage.setItem("UserId", id);
+            localStorage.setItem("name", user.name);
+            localStorage.setItem("UserId", user.id);
             toast("Login Successfully", { autoClose: 2000 });
 
-            setFormData({
-              name: "",
-              password: "",
-              role: "",
-            });
+           
           } else {
             toast.error("Invalid credentials");
           }
@@ -180,15 +177,15 @@ export default function Login({ onLogin }) {
           <div className="col-md-6 d-flex">
             <input
               type="radio"
-              id="trainerstudent"
+              id="trainer"
               name="role"
               className="w-auto"
-              value="trainerstudent"
-              checked={formData.role === "trainerstudent"}
+              value="trainer"
+              checked={formData.role === "trainer"}
               onChange={handleChange}
             />
-            <label htmlFor="trainerstudent" className="m-0 ps-2">
-              Trainer Student
+            <label htmlFor="trainer" className="m-0 ps-2">
+              Trainer 
             </label>
           </div>
           {errors.role && <div className="error">{errors.role}</div>}

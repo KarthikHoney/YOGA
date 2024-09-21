@@ -1,5 +1,5 @@
 // App.js
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromElements } from 'react-router-dom';
 import './App.css';
 import RegisterPage from './form/RegisterPage';
@@ -17,12 +17,12 @@ import Tstudent from './TrainerStudent/Tstudent';
 
 function App() {
     const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || '');
-    const [studentId,setStudentId]=useState(localStorage.getItem('userId')||'')
+    const [loginId,setUserId]=useState(localStorage.getItem('userId')||'')
     const [studentName, setStudentName] = useState(localStorage.getItem('studentName') || ''); 
 
     const handleLogin = (role,id, name) => {
         setUserRole(role);
-        setStudentId(id)
+        setUserId(id)
         setStudentName(name);
         localStorage.setItem('userRole', role);
         localStorage.setItem('studentName', name);
@@ -39,15 +39,15 @@ function App() {
                 {userRole === 'individualstudent' && (
                     <Route path="/" element={<StudentSidebar />}>
                         <Route path="student-dashboard" element={<StudentDashboard studentName={studentName}  />} />
-                        <Route path="student-details" element={<StudentDetails studentId={studentId} />} /> 
-                        <Route path="student-grade" element={<StudentGrade />} />
+                        <Route path="student-details" element={<StudentDetails studentId={loginId} />} /> 
+                        <Route path="student-grade" element={<StudentGrade studentId={loginId} trainerId={loginId}  />} />
                     </Route>
                 )}
-                {userRole === 'trainerstudent' && (
+                {userRole === 'trainer' && (
                     <Route path="/" element={<TrainerDashboard />}>
                         <Route path="trainer-dashboard" element={<TrainerPage studentName={studentName} />} />
-                        <Route path="trainer-details" element={<TrainerDetails studentId={studentId} />} />
-                        <Route path="trainer-student-grade" element={<TrainerStudentGrade />} />
+                        <Route path="trainer-details" element={<TrainerDetails trainerId={loginId} />} />
+                        <Route path="trainer-student-grade" element={<TrainerStudentGrade trainerId={loginId} />} />
                         <Route path="student-view-trainer" element={<Tstudent />} />
                     </Route>
                 )}

@@ -111,8 +111,7 @@ export default function RegisterPage() {
 
   const fetchData = () => {
     axios
-
-      .get("http://localhost/CURD/backend_y/student.php")
+      .post("http://localhost/newyoga/register.php")
 
       .then((response) => {
         if (response.data.error) {
@@ -131,27 +130,30 @@ export default function RegisterPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      const dataToSend = new FormData();
+
+      dataToSend.append("action", "create");
+      dataToSend.append("name", formData.name);
+      dataToSend.append("parentname", formData.parentname);
+      dataToSend.append("gmail", formData.gmail);
+      dataToSend.append("address", formData.address);
+      dataToSend.append("dob", formData.dob);
+      dataToSend.append("password", formData.password);
+      dataToSend.append("wnumber", formData.wnumber);
+      dataToSend.append("number", formData.number);
+
       axios
-        .get("http://localhost/CURD/backend_y/student.php", {
-          params: {
-            action: "create",
-            name: formData.name,
-            email: formData.gmail,
-            parentname: formData.parentname,
-            dob: formData.dob,
-            address: formData.address,
-            password: formData.password,
-            wnumber: formData.wnumber,
-            number: formData.number,
+        .post("http://localhost/newyoga/register.php", dataToSend, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
         })
         .then((response) => {
           console.log(response.data);
-          if (response.data) {
-            alert(response.data.message);
+          if (response.data.status === 1) {
             toast("Submitted Successfully");
             setFormData(initialFormData);
-            navigate("/");
+            goToLogin();
           } else {
             alert("Failed to create record");
           }
