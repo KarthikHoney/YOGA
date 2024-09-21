@@ -16,19 +16,30 @@ import TrainerReg from './form/TrainerReg';
 import Tstudent from './TrainerStudent/Tstudent';
 
 function App() {
-    const [userRole, setUserRole] = useState(localStorage.getItem('userRole') || '');
-    const [loginId,setUserId]=useState(localStorage.getItem('userId')||'')
-    const [studentName, setStudentName] = useState(localStorage.getItem('studentName') || ''); 
-
-    const handleLogin = (role,id, name) => {
-        setUserRole(role);
-        setUserId(id)
-        setStudentName(name);
-        localStorage.setItem('userRole', role);
-        localStorage.setItem('studentName', name);
-        localStorage.setItem('userId',id) 
+    const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "");
+    const [studentId, setStudentId] = useState(localStorage.getItem("studentId") || "");
+    const [trainerId, setTrainerId] = useState(localStorage.getItem("trainerId") || "");
+    const [studentName, setStudentName] = useState(localStorage.getItem("studentName") || "");
+    const [trainerName, setTrainerName] = useState(localStorage.getItem("trainerName") || "");
+  
+    const handleLogin = (role, studentId = null, studentName = null, trainerId = null, trainerName = null) => {
+      setUserRole(role);
+  
+     
+      if (role === "individualstudent") {
+        setStudentId(studentId);
+        setStudentName(studentName);
+        localStorage.setItem("studentId", studentId);
+        localStorage.setItem("studentName", studentName);
+      } else if (role === "trainer") {
+        setTrainerId(trainerId);
+        setTrainerName(trainerName);
+        localStorage.setItem("trainerId", trainerId);
+        localStorage.setItem("trainerName", trainerName);
+      }
+  
+      localStorage.setItem("userRole", role);
     };
-
     const router = createBrowserRouter(
         createRoutesFromElements(
             <>
@@ -39,15 +50,15 @@ function App() {
                 {userRole === 'individualstudent' && (
                     <Route path="/" element={<StudentSidebar />}>
                         <Route path="student-dashboard" element={<StudentDashboard studentName={studentName}  />} />
-                        <Route path="student-details" element={<StudentDetails studentId={loginId} />} /> 
-                        <Route path="student-grade" element={<StudentGrade studentId={loginId} trainerId={loginId}  />} />
+                        <Route path="student-details" element={<StudentDetails studentId={studentId} />} /> 
+                        <Route path="student-grade" element={<StudentGrade studentId={studentId} trainerId={trainerId}  />} />
                     </Route>
                 )}
                 {userRole === 'trainer' && (
                     <Route path="/" element={<TrainerDashboard />}>
-                        <Route path="trainer-dashboard" element={<TrainerPage studentName={studentName} />} />
-                        <Route path="trainer-details" element={<TrainerDetails trainerId={loginId} />} />
-                        <Route path="trainer-student-grade" element={<TrainerStudentGrade trainerId={loginId} />} />
+                        <Route path="trainer-dashboard" element={<TrainerPage studentName={trainerName} />} />
+                        <Route path="trainer-details" element={<TrainerDetails trainerId={trainerId} />} />
+                        <Route path="trainer-student-grade" element={<TrainerStudentGrade trainerId={trainerId} />} />
                         <Route path="student-view-trainer" element={<Tstudent />} />
                     </Route>
                 )}

@@ -71,20 +71,22 @@ export default function Login({ onLogin }) {
         })
         .then((response) => {
           if (response.data) {
+            // console.log(response.data, "data");
+            const { user } = response.data;
 
-            console.log(response.data ," data");
-            const {user}=response.data
-            onLogin(formData.role,user.id, user.name);
+            if (formData.role === "individualstudent") {
+              localStorage.setItem("studentId", user.id);
+              localStorage.setItem("studentName", user.name);
+              onLogin(formData.role, user.id, user.name);
+              navigate("/student-dashboard");
+            } else if (formData.role === "trainer") {
+              localStorage.setItem("trainerId", user.id);
+              localStorage.setItem("trainerName", user.name);
+              onLogin(formData.role, user.id, user.name);
+              navigate("/trainer-dashboard");
+            }
 
-            formData.role === "individualstudent"
-              ? navigate("/student-dashboard")
-              : navigate("/trainer-dashboard");
-
-            localStorage.setItem("name", user.name);
-            localStorage.setItem("UserId", user.id);
             toast("Login Successfully", { autoClose: 2000 });
-
-           
           } else {
             toast.error("Invalid credentials");
           }
@@ -185,7 +187,7 @@ export default function Login({ onLogin }) {
               onChange={handleChange}
             />
             <label htmlFor="trainer" className="m-0 ps-2">
-              Trainer 
+              Trainer
             </label>
           </div>
           {errors.role && <div className="error">{errors.role}</div>}

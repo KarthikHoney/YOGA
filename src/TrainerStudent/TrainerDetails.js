@@ -44,9 +44,9 @@ export default function TrainerDetails({ trainerId }) {
         </div>
       </div>
       {trainer.length > 0 ? (
-        trainer.map((eachTrainer) => {
+        trainer.map((eachTrainer,index) => {
           return (
-            <Table className="mt-5" key={eachTrainer.id}>
+            <Table className="mt-5" key={index}>
               <tr>
                 <th>Name</th>
                 <td>{eachTrainer.name}</td>
