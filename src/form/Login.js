@@ -77,12 +77,12 @@ export default function Login({ onLogin }) {
             if (formData.role === "individualstudent") {
               localStorage.setItem("studentId", user.id);
               localStorage.setItem("studentName", user.name);
-              onLogin(formData.role, user.id, user.name);
+              onLogin(formData.role, user.id, user.name, null, null);
               navigate("/student-dashboard");
             } else if (formData.role === "trainer") {
               localStorage.setItem("trainerId", user.id);
               localStorage.setItem("trainerName", user.name);
-              onLogin(formData.role, user.id, user.name);
+              onLogin(formData.role, null, null, user.id, user.name);
               navigate("/trainer-dashboard");
             }
 

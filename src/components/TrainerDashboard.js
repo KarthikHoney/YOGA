@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaBars } from 'react-icons/fa'
-import { MdOutlineGrade } from 'react-icons/md'
+import { MdGroups2, MdOutlineGrade } from 'react-icons/md'
 import { PiStudentBold } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { NavLink, Outlet } from 'react-router-dom'
@@ -25,7 +25,12 @@ export default function TrainerDashBoard() {
             path:'/Trainer-student-grade',
             name:'Student Grade',
             icon:<MdOutlineGrade />
-        }
+        },
+        {
+            path:'/student-view-trainer',
+            name:'Total Students',
+            icon:<MdGroups2 />
+        },
     ]
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { CiLogout } from "react-icons/ci";
 import { FaRegEye, FaUser } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-export default function StudentGrade({ studentId, trainerId }) {
+export default function StudentGrade({ studentId }) {
   const navigate = useNavigate();
   const logout = () => {
     navigate("/");
@@ -62,6 +62,25 @@ export default function StudentGrade({ studentId, trainerId }) {
     return Object.keys(tempErrors).length === 0;
   };
 
+  useEffect(()=>{
+    axios
+    .post("http://localhost/newyoga/gradeStudent.php",{userId : studentId})
+    .then((res)=>{
+      console.log(res.data)
+      if(res.data && res.data.status===1){
+        const Data = Array.isArray(res.data.grades) ? (res.data.grades) : [];
+        setGrade(Data)
+      }else{
+        toast.warning('Failed to fetch')
+      }
+    })
+    .catch((error)=>{
+      toast.error('Error:',error)
+    })
+
+    
+  },[studentId]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
@@ -70,20 +89,17 @@ export default function StudentGrade({ studentId, trainerId }) {
         grade: formData.grade,
         payment: formData.payment,
         studentId: studentId, // Sending studentId
-        trainerId: trainerId, // Sending trainerId
       };
 
       axios
-        .post("http://localhost/newyoga/grade.php", dataToSend)
+        .post("http://localhost/newyoga/gradeStudent.php", dataToSend)
         .then((response) => {
-          if (response.data) {
+          if (response.data ) {
             console.log(response.data);
             toast.success("Grade Applied Successfully");
             setFormData(initialFormData);
-            const gradeData = Array.isArray(response.data)
-              ? response.data
-              : [response.data];
-            setGrade((previousData)=>[...previousData,...gradeData]);
+            
+            setGrade([...grade,response.data.newGrade])
           } else {
             toast.warn("No data");
           }
