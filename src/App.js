@@ -67,7 +67,7 @@ function App() {
             <Route path="/" element={<StudentSidebar />}>
               <Route
                 path="student-dashboard"
-                element={<StudentDashboard studentName={studentName} />}
+                element={<StudentDashboard studentName={studentName} studentId={studentId}  />}
               />
               <Route
                 path="student-details"
@@ -85,7 +85,7 @@ function App() {
             <Route path="/" element={<TrainerDashboard />}>
               <Route
                 path="trainer-dashboard"
-                element={<TrainerPage studentName={trainerName} />}
+                element={<TrainerPage trainerName={trainerName} />}
               />
               <Route
                 path="trainer-details"
@@ -95,7 +95,7 @@ function App() {
                 path="trainer-student-grade"
                 element={<TrainerStudentGrade trainerId={trainerId} />}
               />
-              <Route path="student-view-trainer" element={<Tstudent />} />
+              <Route path="student-view-trainer" element={<Tstudent trainerId={trainerId} />} />
             </Route>
           )}
 

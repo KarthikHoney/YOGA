@@ -86,7 +86,7 @@ export default function StudentGrade({ studentId }) {
         action: "grade",
         grade: formData.grade,
         payment: formData.payment,
-        studentId: studentId, // Sending studentId
+        studentId: studentId, 
       };
   
       axios
