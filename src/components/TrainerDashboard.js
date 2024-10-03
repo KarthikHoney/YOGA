@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaBars } from 'react-icons/fa'
-import { MdGroups2, MdOutlineGrade } from 'react-icons/md'
+import { MdGroups2 } from 'react-icons/md'
 import { PiStudentBold } from 'react-icons/pi'
 import { RxDashboard } from 'react-icons/rx'
 import { NavLink, Outlet } from 'react-router-dom'
@@ -21,11 +21,7 @@ export default function TrainerDashBoard() {
             name:'Trainer',
             icon:<PiStudentBold />
         },
-        {
-            path:'/Trainer-student-grade',
-            name:'Student Grade',
-            icon:<MdOutlineGrade />
-        },
+       
         {
             path:'/student-view-trainer',
             name:'Total Students',
@@ -33,12 +29,15 @@ export default function TrainerDashBoard() {
         },
     ]
 
+
+    
+
   return (
     <div>
       <Container fluid  className='flexbox p-0'>
         <div style={{width: isOpen ? "auto" : "50px"}} className="sidebar">
             <div className="top_section">
-                <div><img src={require('../assets/img/logo (1).png')} style={{display: isOpen ? "block" : "none" , width : "60%"}} className="logo" /></div>
+                <div><img src={require('../assets/img/logo (1).png')} style={{display: isOpen ? "block" : "none" , width : "60%"}} className="logo" alt='class' /></div>
                 <div style={{marginLeft: isOpen ? "auto" : "0px", cursor:"pointer", color : "#fff"}} className="bars">
                     <FaBars onClick={toggle} />
                 </div>

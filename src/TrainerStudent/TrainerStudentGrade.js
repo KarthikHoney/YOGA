@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, Form, Modal } from "react-bootstrap";
 import { CiLogout } from "react-icons/ci";
-import { FaRegEye, FaUser } from "react-icons/fa";
+import { FaArrowLeft, FaUser } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default function TrainerStudentGrade({ studentId, trainerId }) {
+export default function TrainerStudentGrade() {
   const navigate = useNavigate();
 
   const logout = () => {
     navigate("/");
   };
 
-  const studentDashboard = () => {
-    navigate("/student-view-trainer");
-  };
+  const viewStudentGrade = ()=>{
+    navigate('/student-view-trainer')
+  }
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -29,7 +29,8 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
 
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
-  const [grade, setGrade] = useState([]);
+  const [grades, setGrades] = useState([]);
+  const [gradeView,setGradeView] = useState(false)
 
   const paymentAmounts = {
     1: 100,
@@ -45,6 +46,20 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
     11: 1100,
     12: 1200,
   };
+
+  const location = useLocation();
+  
+  // Get values from location.state or localStorage
+  const studentId = location.state?.studentId || localStorage.getItem("studId");
+  const trainerId = location.state?.trainerId || localStorage.getItem("trainId");
+
+  // Store in localStorage if available from location.state
+  useEffect(() => {
+    if (location.state?.studentId && location.state?.trainerId) {
+      localStorage.setItem("studId", location.state.studentId);
+      localStorage.setItem("trainId", location.state.trainerId);
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,20 +89,23 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
         action: "grade",
         grade: formData.grade,
         payment: formData.payment,
-        studentId: studentId, // Sending studentId
-        trainerId: trainerId, // Sending trainerId
+        studentId: studentId,
+        trainerId: trainerId,
       };
-
+  
       axios
         .post("http://localhost/newyoga/gradeTrainer.php", dataToSend)
         .then((response) => {
-          if (response.data) {
+          if (response.data && response.data.status === 1) {
             toast.success("Grade Applied Successfully");
             setFormData(initialFormData);
-            const gradeData = Array.isArray(response.data)
-              ? response.data
-              : [response.data];
-            setGrade((previousData) => [...previousData, ...gradeData]);
+  
+            const gradeData = response.data.data; 
+            console.log(gradeData);
+            if (gradeData) {
+              setGrades((previousData) => [...previousData, gradeData]); 
+              setGradeView(true);
+            }
           } else {
             toast.warn("Invalid data or no data returned");
           }
@@ -97,10 +115,33 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
         });
     }
   };
+  
+  useEffect(() => {
+    if (studentId && trainerId) {
+        const metaGrade ={
+            action: "fetchGrades",
+            studentId,
+            trainerId
+        }
+      axios.post("http://localhost/newyoga/gradeTrainer.php",metaGrade)
+      .then((response) => {
+        if (response.data && response.data.status === 1) {
+          setGrades(response.data.grades || []);
+        } else {
+          console.log("No grades found or invalid data");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching grades:", error);
+      });
+    }
+  }, [studentId, trainerId]);
+
+  
 
   return (
     <div>
-      {/* Apply Grade Modal */}
+      
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Apply Grade</Modal.Title>
@@ -116,18 +157,25 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
               <div className="col-12 form-controls">
                 <label htmlFor="grade">Choose Exam Grade</label>
                 <select
-                  id="grade"
-                  className="mb-2"
-                  name="grade"
-                  value={formData.grade}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Grade</option>
-                  {Object.keys(paymentAmounts).map((grade) => (
-                    <option key={grade} value={grade}>
-                      {grade}
-                    </option>
-                  ))}
+                    id="grade"
+                    className="mb-2"
+                    name="grade"
+                    value={formData.grade}
+                    onChange={handleChange}
+                    >
+                    <option value="">Select Grade</option>
+                      {Object.keys(paymentAmounts)
+                          .filter((grade) => {
+                              // Ensure 'grades' is an array and has the necessary properties before filtering
+                              return grades && Array.isArray(grades) &&
+                                    !grades.some((item) => item && item.grade === parseInt(grade));
+                          })
+                          .map((grade) => (
+                          <option key={grade} value={grade}>
+                              {grade}
+                          </option>
+                      ))}
+
                 </select>
                 {errors.grade && <div className="error">{errors.grade}</div>}
               </div>
@@ -157,12 +205,15 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
       </Modal>
 
       <div className="d-flex justify-content-between">
+      <a href onClick={viewStudentGrade}>
+            <FaArrowLeft className="user-icon me-2 mb-3" />
+          </a>
         <h2>Your Student Grade</h2>
         <div>
-          <a href="#">
+          <a href>
             <FaUser className="user-icon me-2" />
           </a>
-          <a href="" onClick={logout}>
+          <a href onClick={logout}>
             <CiLogout className="user-icon" />
           </a>
         </div>
@@ -187,8 +238,8 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
             </tr>
           </thead>
           <tbody className="table-hover">
-            {grade.length > 0 ? (
-              grade.map((item, index) => (
+            {grades.length > 0 ? ( // Check if grades is a valid array and has length
+              grades.map((item, index) => (
                 <tr key={index}>
                   <td className="text-left">{index + 1}</td>
                   <td className="text-left">{item.grade}</td>
@@ -196,13 +247,6 @@ export default function TrainerStudentGrade({ studentId, trainerId }) {
                   <td className="text-left">{item.payment}</td>
                   <td className="text-left">
                     <ButtonGroup>
-                      <Button
-                        variant="outline-success shadow-none"
-                        onClick={studentDashboard}
-                        className="edit py-2 px-3"
-                      >
-                        <FaRegEye /> VIEW GRADE
-                      </Button>
                       <Button
                         variant="outline-primary shadow-none"
                         onClick={handleShow}

@@ -4,7 +4,8 @@
 main{
   width: 100%;
   padding: 20px;
-  background:  url("./assets/img/bg.jpg") no-repeat center;  
+  background:  url("./assets/img/bg.jpg") no-repeat center;
+  background-attachment: fixed;
   background-size: cover;
   backdrop-filter: blur(20px);
 }

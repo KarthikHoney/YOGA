@@ -85,7 +85,7 @@ function App() {
             <Route path="/" element={<TrainerDashboard />}>
               <Route
                 path="trainer-dashboard"
-                element={<TrainerPage trainerName={trainerName} />}
+                element={<TrainerPage trainerName={trainerName} trainerId={trainerId} />}
               />
               <Route
                 path="trainer-details"
@@ -95,7 +95,7 @@ function App() {
                 path="trainer-student-grade"
                 element={<TrainerStudentGrade trainerId={trainerId} />}
               />
-              <Route path="student-view-trainer" element={<Tstudent trainerId={trainerId} />} />
+              <Route path="student-view-trainer" element={<Tstudent trainerId={trainerId} studentId={studentId} />} />
             </Route>
           )}
 
